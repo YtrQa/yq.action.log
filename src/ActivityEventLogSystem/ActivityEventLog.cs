@@ -92,7 +92,7 @@ namespace ActivityEventLogSystem
 						entity.Id = Guid.NewGuid();
 						entity.ActivityType = activityType;
 						entity.ActorType = actorType;
-						entity.ActorId = actorId;
+						entity.Actor = actorId;
 						entity.Target = target;
 						entity.Payload = payload;
 						entity.Timestamp = DateTime.UtcNow;
