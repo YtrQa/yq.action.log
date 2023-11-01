@@ -24,14 +24,22 @@ namespace ActivityEventLogSystem
 			await _context.AddAsync(entity);
 			await _context.SaveChangesAsync();
 		}
-
+		public async Task SaveAsync(
+			TEnumActivityType activityType,
+			TEnumActorType actorType,
+			string actor,
+			string target,
+			string payload)
+		{
+			await AddActivity(actor, target, payload, activityType.ToString(), actorType.ToString());
+		}
 		public async Task SaveAsync<TEntitySourceFirst, TEntitySourceSecond> (
 			TEntitySourceFirst beforeChange,
 			TEntitySourceSecond afterChange,
 			List<string> ignoreProperties,
 			TEnumActivityType activityType,
 			TEnumActorType actorType,
-			string actorId,
+			string actor,
 			string target)
 		{
 			var compResult = DiffObjects(beforeChange, afterChange, ignoreProperties);
@@ -46,12 +54,12 @@ namespace ActivityEventLogSystem
 					NewValue = s.Object2Value
 				}));
 
-				await AddActivity(actorId, target, payload,activityType.ToString(),actorType.ToString());
+				await AddActivity(actor, target, payload,activityType.ToString(),actorType.ToString());
 			}
 		}
 		
 		private async Task AddActivity(
-			string actorId,
+			string actor,
 			string target,
 			string payload,
 			string activityType,
@@ -69,7 +77,7 @@ namespace ActivityEventLogSystem
 						entity.Id = Guid.NewGuid();
 						entity.ActivityType = activityType;
 						entity.ActorType = actorType;
-						entity.Actor = actorId;
+						entity.Actor = actor;
 						entity.Target = target;
 						entity.Payload = payload;
 						entity.Timestamp = DateTime.UtcNow;
