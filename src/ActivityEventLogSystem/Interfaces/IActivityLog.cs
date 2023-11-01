@@ -15,6 +15,7 @@ namespace ActivityEventLogSystem.Interfaces
 		string ActorType { get; set; }
 		//Actor is the id of the actor
 		string Actor { get; set; }
+		int ActorOrgId { get; set; }
 		//Target is the id of the target
 		string Target { get; set; }
 		//Payload is the json of the changes
